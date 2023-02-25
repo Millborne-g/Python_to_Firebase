@@ -22,8 +22,8 @@ now = datetime.now()
 dateToday = str(date.today())
 timeToday = now.strftime("%H:%M:%S")
 
-data = {"Location": "Lapasan Zone 2", "Date": dateToday, "Time": timeToday, "Notification": "on"}
+data = {"PlateNumber":"000-111-222", "Location": "Lapasan Zone 2", "Date": dateToday, "Time": timeToday, "Notification": "on"}
 #-------------------------------------------------------------------------------
 # Create Data
 
-db.child("Scanned").child("000-111-222").child(dateToday).set(data)
+db.child("Scanned").child((dateToday+" "+timeToday)).set(data)
