@@ -1,0 +1,5 @@
+pip3 install --upgrade setuptools
+
+pip3 install --upgrade gcloud
+
+pip3 install pyrebase4
