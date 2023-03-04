@@ -17,13 +17,29 @@ firebaseConfig = {
 firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 
-now = datetime.now()
+def submitPlateNumber(PN):
+    exist = db.child("Vehicle_with_criminal_offense").child(PN).child("plateNumber").get()
+    print(exist.val())
+    try:
+      if exist.val() != None:
+          print("Plate Number exist")
+          # Create Data
+          now = datetime.now()
+          dateToday = str(date.today())
+          timeToday = now.strftime("%H:%M:%S")
+          data = {"PlateNumber":PN, "Location": "Lapasan Zone 3", "Date": dateToday, "Time": timeToday, "Notification": "on", "Apprehended": "no"}
+          db.child("Scanned").child((dateToday+" "+timeToday)).set(data)
+          dataPlateNumber = {"PlateNumber":PN, "Apprehended": "no"}
+          db.child("ScannedPlateNmber").child(PN).set(dataPlateNumber)
+      else:
+          print("Plate Number dont't exist")
+    except:
+        print("Plate Number dont't exist")
+    
 
-dateToday = str(date.today())
-timeToday = now.strftime("%H:%M:%S")
+plateNumber = "321"
+submitPlateNumber(plateNumber)
 
-data = {"PlateNumber":"000-111-222", "Location": "Lapasan Zone 2", "Date": dateToday, "Time": timeToday, "Notification": "on"}
-#-------------------------------------------------------------------------------
-# Create Data
 
-db.child("Scanned").child((dateToday+" "+timeToday)).set(data)
+
+
