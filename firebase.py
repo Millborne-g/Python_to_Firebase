@@ -18,9 +18,9 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 
 def submitPlateNumber(PN):
-    exist = db.child("Vehicle_with_criminal_offense").child(PN).child("plateNumber").get()
-    print(exist.val())
     try:
+      exist = db.child("Vehicle_with_criminal_offense").child(PN).child("plateNumber").get()
+      print(exist.val())
       if exist.val() != None:
           isApprehended = db.child("Vehicle_with_criminal_offense").child(PN).child("apprehended").get()
           print("isApprehended "+isApprehended.val())
@@ -30,7 +30,7 @@ def submitPlateNumber(PN):
             dateToday = str(date.today())
             timeToday = now.strftime("%H:%M:%S")
             crimeScanned = db.child("Vehicle_with_criminal_offense").child(PN).child("criminalOffense").get()
-            data = {"PlateNumber":PN, "Location": "Lapasan Zone 1", "Date": dateToday, "Time": timeToday, "Notification": "on", "Apprehended": "no", "CriminalOffense": crimeScanned.val()}
+            data = {"PlateNumber":PN, "Location": "Lapasan Zone 4", "Date": dateToday, "Time": timeToday, "Notification": "on", "Apprehended": "no", "CriminalOffense": crimeScanned.val()}
             db.child("Scanned").child((dateToday+" "+timeToday)).set(data)
             crime = db.child("Vehicle_with_criminal_offense").child(PN).child("criminalOffense").get()
             dataPlateNumber = {"PlateNumber":PN, "Apprehended": "no","CriminalOffense": crime.val()}
@@ -41,8 +41,10 @@ def submitPlateNumber(PN):
         print("Plate Number dont't exist")
 
 #isulod ang ang plate number sa plateNumber na variable gaw
-plateNumber = "001"
+plateNumber = "321"
+
 submitPlateNumber(plateNumber)
+  
 
 
 
