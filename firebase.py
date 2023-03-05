@@ -22,22 +22,26 @@ def submitPlateNumber(PN):
     print(exist.val())
     try:
       if exist.val() != None:
-          print("Plate Number exist")
-          # Create Data
-          now = datetime.now()
-          dateToday = str(date.today())
-          timeToday = now.strftime("%H:%M:%S")
-          data = {"PlateNumber":PN, "Location": "Lapasan Zone 3", "Date": dateToday, "Time": timeToday, "Notification": "on", "Apprehended": "no"}
-          db.child("Scanned").child((dateToday+" "+timeToday)).set(data)
-          dataPlateNumber = {"PlateNumber":PN, "Apprehended": "no"}
-          db.child("ScannedPlateNmber").child(PN).set(dataPlateNumber)
+          isApprehended = db.child("Vehicle_with_criminal_offense").child(PN).child("apprehended").get()
+          print("isApprehended "+isApprehended.val())
+          if isApprehended.val() != 'yes':
+            # Create Data
+            now = datetime.now()
+            dateToday = str(date.today())
+            timeToday = now.strftime("%H:%M:%S")
+            crimeScanned = db.child("Vehicle_with_criminal_offense").child(PN).child("criminalOffense").get()
+            data = {"PlateNumber":PN, "Location": "Lapasan Zone 1", "Date": dateToday, "Time": timeToday, "Notification": "on", "Apprehended": "no", "CriminalOffense": crimeScanned.val()}
+            db.child("Scanned").child((dateToday+" "+timeToday)).set(data)
+            crime = db.child("Vehicle_with_criminal_offense").child(PN).child("criminalOffense").get()
+            dataPlateNumber = {"PlateNumber":PN, "Apprehended": "no","CriminalOffense": crime.val()}
+            db.child("ScannedPlateNmber").child(PN).set(dataPlateNumber)
       else:
           print("Plate Number dont't exist")
     except:
         print("Plate Number dont't exist")
-    
 
-plateNumber = "321"
+#isuload ang ang plate number sa plateNumber gaw
+plateNumber = "001"
 submitPlateNumber(plateNumber)
 
 
