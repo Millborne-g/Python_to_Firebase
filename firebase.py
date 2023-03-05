@@ -40,7 +40,7 @@ def submitPlateNumber(PN):
     except:
         print("Plate Number dont't exist")
 
-#isuload ang ang plate number sa plateNumber gaw
+#isulod ang ang plate number sa plateNumber na variable gaw
 plateNumber = "001"
 submitPlateNumber(plateNumber)
 
