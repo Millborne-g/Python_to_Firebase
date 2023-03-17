@@ -133,12 +133,6 @@ def checkDatabase():
             file.close()
         print('checkdatabase')
        
-
-
-
-        
-    
-
 # Keep track of the latest data
 latest_data = None
 
