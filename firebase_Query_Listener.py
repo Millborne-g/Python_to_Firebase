@@ -108,7 +108,7 @@ def checkExist():
         time.sleep(1)
 
 
-def checkDatabase():
+def saveForQuery():
     filename = "scanned_platenumbers.txt"
 
     # Create the file if it doesn't exist
@@ -133,7 +133,7 @@ latest_data = None
 # Continuously get the latest data added to the database
 while True:
     task1 = threading.Thread(target=submitPlateNumber)
-    task2 = threading.Thread(target=checkDatabase)
+    task2 = threading.Thread(target=saveForQuery)
     task3 = threading.Thread(target=checkExist)
 
     task1.start()
