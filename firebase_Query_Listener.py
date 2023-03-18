@@ -134,14 +134,14 @@ latest_data = None
 
 # Continuously get the latest data added to the database
 while True:
-    # task1 = threading.Thread(target=submitPlateNumber)
-    # task2 = threading.Thread(target=saveForQuery)
+    task1 = threading.Thread(target=submitPlateNumber)
+    task2 = threading.Thread(target=saveForQuery)
     task3 = threading.Thread(target=checkExist)
 
-    # task1.start()
-    # task2.start()
+    task1.start()
+    task2.start()
     task3.start()
 
-    # task1.join()
-    # task2.join()
+    task1.join()
+    task2.join()
     task3.join()
