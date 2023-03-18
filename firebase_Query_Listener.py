@@ -23,24 +23,23 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 
 def submitPlateNumber():
-    my_strings = ["001", "x", "321", "AAD1781", "y"]
+    my_strings = ["001", "x", "321", "AAD1781", "y","003", "c", "789", "BBD1781", "u","007", "v", "654", "CCD1781", "i"]
     while True:  
         PN = random.choice(my_strings)
         print(PN)
         try:
-            now = datetime.now()
-            dateToday = str(date.today())
-            timeToday = now.strftime("%H:%M:%S")
-            isApprehended = db.child("Vehicle_with_criminal_offense").child(PN).child("apprehended").get()
-            crimeScanned = db.child("Vehicle_with_criminal_offense").child(PN).child("criminalOffense").get()
-
+            # now = datetime.now()
+            # dateToday = str(date.today())
+            # timeToday = now.strftime("%H:%M:%S")
+            # isApprehended = db.child("Vehicle_with_criminal_offense").child(PN).child("apprehended").get()
+            # crimeScanned = db.child("Vehicle_with_criminal_offense").child(PN).child("criminalOffense").get()
             # Scanned
-            data = {"PlateNumber":PN, "Location": "Lapasan Zone 4", "Date": dateToday, "Time": timeToday, "Notification": "on", "Apprehended": isApprehended.val(), "CriminalOffense": crimeScanned.val()}
+            data = {"PlateNumber":PN}
             db.child("ScannedQuery").set(data)
 
-            # ScannedPlateNmber
-            dataPlateNumber = {"PlateNumber":PN, "Apprehended": isApprehended.val(),"CriminalOffense": crimeScanned.val()}
-            db.child("ScannedPlateNumberQuery").set(dataPlateNumber)
+            # # ScannedPlateNmber
+            # dataPlateNumber = {"PlateNumber":PN, "Apprehended": isApprehended.val(),"CriminalOffense": crimeScanned.val()}
+            # db.child("ScannedPlateNumberQuery").set(dataPlateNumber)
 
             print('plate number submitted to db')
         except Exception as e:
@@ -93,6 +92,10 @@ def checkExist():
                     crime = db.child("Vehicle_with_criminal_offense").child(plateNum).child("criminalOffense").get()
                     dataPlateNumber = {"PlateNumber":plateNum, "Apprehended": "no","CriminalOffense": crime.val()}
                     db.child("ScannedPlateNumber").child(plateNum).set(dataPlateNumber)
+
+                    #For Notification
+                    db.child("ScannedNotification").set(data)
+                    db.child("ScannedPlateNumberNotification").set(dataPlateNumber)
             else:
                 print("Plate Number dont't exist")
         except Exception as e:
@@ -102,6 +105,7 @@ def checkExist():
         print('checkDatabase')
         print('Latest data:', plateNum)
         print()
+        time.sleep(1)
 
 
 def checkDatabase():
@@ -110,16 +114,6 @@ def checkDatabase():
     # Create the file if it doesn't exist
     if not os.path.isfile(filename):
         open(filename, "w").close()
-    # plateNum = db.child("ScannedQuery").child("PlateNumber").get()
-    # # Open the file in append mode
-    # with open(filename, "a") as file:
-    #     # Get the text to append from the user
-    #     plateNum = plateNum.val()
-    #     # Append the text to the end of the file
-    #     file.write(plateNum+ "\n")
-    #     # Close the file
-    #     file.close()
-    # print('checkdatabase')
 
     while True:
         plateNum = db.child("ScannedQuery").child("PlateNumber").get()

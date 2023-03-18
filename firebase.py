@@ -28,11 +28,15 @@ def submitPlateNumber(PN):
 
         # Scanned
         data = {"PlateNumber":PN, "Location": "Lapasan Zone 4", "Date": dateToday, "Time": timeToday, "Notification": "on", "Apprehended": isApprehended.val(), "CriminalOffense": crimeScanned.val()}
-        db.child("ScannedQuery").set(data)
+        db.child("Scanned").child((dateToday+" "+timeToday)).set(data)
 
         # ScannedPlateNmber
         dataPlateNumber = {"PlateNumber":PN, "Apprehended": isApprehended.val(),"CriminalOffense": crimeScanned.val()}
-        db.child("ScannedPlateNumberQuery").set(dataPlateNumber)
+        db.child("ScannedPlateNumber").child(PN).set(dataPlateNumber)
+
+        #For Notification
+        db.child("ScannedNotification").set(data)
+        db.child("ScannedPlateNumberNotification").set(dataPlateNumber)
 
         print('plate number submitted to db')
     except Exception as e:
@@ -44,7 +48,7 @@ while True:
   plateNumber = random.choice(my_strings)
   print(plateNumber)
   submitPlateNumber(plateNumber)
-  time.sleep(0.5)
+  time.sleep(1)
   
 
 
