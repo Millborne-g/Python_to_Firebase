@@ -53,14 +53,6 @@ def submitPlateNumber():
 
 def checkExist():
     while True:
-    
-        # plateNum = db.child("ScannedQuery").child("PlateNumber").get()
-        
-        # # Get the latest data
-        # # latest_data_key = max(data.key())
-        # # latest_data = data[latest_data_key]
-        # plateNum = plateNum.val()
-        
         filename = "scanned_platenumbers.txt"
         first_line = ""
         # Open the file for reading and writing
@@ -111,23 +103,26 @@ def checkExist():
 
 def saveForQuery():
     filename = "scanned_platenumbers.txt"
-
+    prevPN = ''
     # Create the file if it doesn't exist
     if not os.path.isfile(filename):
         open(filename, "w").close()
 
     while True:
+        #Read the latest scanned on the database
         plateNum = db.child("ScannedQuery").child("PlateNumber").get()
-        # Open the file in append mode
-        with open(filename, "a") as file:
-            # Get the text to append from the user
-            plateNum = plateNum.val()
-            # Append the text to the end of the file
-            file.write(plateNum+ "\n")
-            # Close the file
-            file.close()
-        print('checkdatabase')
-        time.sleep(1)
+        if plateNum.val() != prevPN:
+            # Open the file in append mode
+            with open(filename, "a") as file:
+                # Get the text to append from the user
+                plateNum = plateNum.val()
+                # Append the text to the end of the file
+                file.write(plateNum+ "\n")
+                # Close the file
+                file.close()
+            print('checkdatabase')
+            prevPN = plateNum
+            time.sleep(1)
        
 # Keep track of the latest data
 latest_data = None
