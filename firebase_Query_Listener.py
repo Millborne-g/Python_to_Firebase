@@ -23,7 +23,7 @@ firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
 
 def submitPlateNumber():
-    my_strings = ["001", "x", "321", "AAD1781", "y","003", "c", "789", "BBD1781", "u","007", "v", "654", "CCD1781", "i"]
+    my_strings = ["RPC7777", "x", "ABC1234", "AAD1781", "y","RPC7777", "c", "ABC1234", "AAD1781", "u","RPC7777", "v", "ABC1234", "CCD1781", "i"]
     while True:  
         PN = random.choice(my_strings)
         print(PN)
@@ -68,6 +68,7 @@ def checkExist():
             # Close the file
             file.close()
         plateNum = first_line
+        
         try:
             exist = db.child("Vehicle_with_criminal_offense").child(plateNum).child("plateNumber").get()
             print(exist.val())
